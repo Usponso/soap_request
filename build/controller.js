@@ -20,17 +20,11 @@ const json2csv_1 = require("json2csv");
 const mysql_1 = __importDefault(require("mysql"));
 class SoapController {
     constructor() {
-        this.url = process.env.url;
+        this.url = "https://otmgtm-a420717-dev1.otm.em2.oraclecloud.com:443/GC3Services/CommandService/call";
         this.headers = {
             'Content-Type': 'text/xml;charset=UTF-8',
             'soapAction': 'http://xmlns.oracle.com/apps/otm/CommandService/xmlExport',
         };
-        // private con = mysql.createConnection({
-        //     host: "localhost",
-        //     user: "root",
-        //     password: "",
-        //     database: "soap_request",
-        // });
         this.con = mysql_1.default.createConnection(`mysql://${process.env.user}:${process.env.password}@${process.env.host}/${process.env.database}?connectTimeout=30000&acquireTimeout=30000&waitForConnections=true&keepAlive=30&charset=utf8mb4`);
     }
     getDataInterval(tables, start, end) {
@@ -89,9 +83,8 @@ class SoapController {
                                     console.log(err);
                             });
                         }
-                        for (let i = 0; i < json.length; i = i + 150000) {
-                            cpt++;
-                            let sliced = json.slice(i, i + 150000);
+                        for (let i = 0; i < json.length; i = i + 200) {
+                            let sliced = json.slice(i, i + 200);
                             let obj = tableObject;
                             let values = [];
                             for (let j = 0; j < sliced.length; j++) {
@@ -107,6 +100,7 @@ class SoapController {
                                     console.log(err);
                                 console.log('INSERTING..'); //TODO delete console.log
                             });
+                            yield new Promise(resolve => setTimeout(resolve, 100));
                         }
                     }));
                     let cpt = 0;

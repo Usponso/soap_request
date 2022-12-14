@@ -6,24 +6,16 @@ import mysql from 'mysql';
 
 
 export class SoapController{
-    private url = process.env.url;
+    private url:string = "https://otmgtm-a420717-dev1.otm.em2.oraclecloud.com:443/GC3Services/CommandService/call";
     private headers = {
         'Content-Type': 'text/xml;charset=UTF-8',
         'soapAction': 'http://xmlns.oracle.com/apps/otm/CommandService/xmlExport',
     };
 
-    // private con = mysql.createConnection({
-    //     host: "localhost",
-    //     user: "root",
-    //     password: "",
-    //     database: "soap_request",
-    // });
-
     private con = mysql.createConnection(`mysql://${process.env.user}:${process.env.password}@${process.env.host}/${process.env.database}?connectTimeout=30000&acquireTimeout=30000&waitForConnections=true&keepAlive=30&charset=utf8mb4`)
 
     public async getDataInterval(tables: string[], start: string, end: string){
         let startTime = performance.now();
-        
         for(const table of tables) {
             console.log("TABLE : " + table); //TODO delete console.log
             let total = await this.getTotalByInterval(table,start, end); //Get the number of rows for the selected year
@@ -81,9 +73,8 @@ export class SoapController{
                         });
                     }
 
-                    for(let i=0; i<json.length; i=i+150000){
-                        cpt++;
-                        let sliced = json.slice(i,i+150000);
+                    for(let i=0; i<json.length; i=i+200){
+                        let sliced = json.slice(i,i+200);
                         let obj = tableObject;
                         let values: string[][] = [];
                         for(let j=0; j<sliced.length; j++){
@@ -99,6 +90,7 @@ export class SoapController{
                             if(err) console.log(err);
                             console.log('INSERTING..'); //TODO delete console.log
                         });
+                        await new Promise(resolve => setTimeout(resolve, 100));
                     }
                 });
 

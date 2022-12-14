@@ -10,10 +10,10 @@ const app: Express = express();
 
   app.get('/', (req: Request, res: Response) => {
     let tables = [
-      'shipment',
+      // 'shipment',
       // 'shipment_stop',
       // 'shipment_stop_d',
-      // 'order_release',
+      'order_release',
       // 'ob_order_base',
       // 'ship_unit'
       // 'view_shipment_order_release' //INSERT_DATE field unknown
