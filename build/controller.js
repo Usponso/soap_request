@@ -25,7 +25,7 @@ class SoapController {
             'Content-Type': 'text/xml;charset=UTF-8',
             'soapAction': 'http://xmlns.oracle.com/apps/otm/CommandService/xmlExport',
         };
-        this.con = mysql_1.default.createConnection(`mysql://${process.env.user}:${process.env.password}@${process.env.host}/${process.env.database}?connectTimeout=30000&acquireTimeout=30000&waitForConnections=true&keepAlive=30&charset=utf8mb4`);
+        this.con = mysql_1.default.createConnection(`mysql://${process.env.user}:${process.env.password}@${process.env.host}/${process.env.database}?connectTimeout=300000&acquireTimeout=300000&waitForConnections=true&keepAlive=30&charset=utf8mb4`);
     }
     getDataInterval(tables, start, end) {
         return __awaiter(this, void 0, void 0, function* () {

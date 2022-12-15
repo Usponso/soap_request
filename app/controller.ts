@@ -12,7 +12,7 @@ export class SoapController{
         'soapAction': 'http://xmlns.oracle.com/apps/otm/CommandService/xmlExport',
     };
 
-    private con = mysql.createConnection(`mysql://${process.env.user}:${process.env.password}@${process.env.host}/${process.env.database}?connectTimeout=30000&acquireTimeout=30000&waitForConnections=true&keepAlive=30&charset=utf8mb4`)
+    private con = mysql.createConnection(`mysql://${process.env.user}:${process.env.password}@${process.env.host}/${process.env.database}?connectTimeout=300000&acquireTimeout=300000&waitForConnections=true&keepAlive=30&charset=utf8mb4`)
 
     public async getDataInterval(tables: string[], start: string, end: string){
         let startTime = performance.now();
